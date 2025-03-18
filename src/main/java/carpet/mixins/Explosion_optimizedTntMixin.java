@@ -47,7 +47,7 @@ public abstract class Explosion_optimizedTntMixin
             cancellable = true)
     private void onExplosionA(CallbackInfo ci)
     {
-        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && (this.source instanceof TntEntity))
+        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && (this.source instanceof PrimedTnt))
         {
             OptimizedExplosion.doExplosionA((Explosion) (Object) this, eLogger);
             ci.cancel();
@@ -67,7 +67,7 @@ public abstract class Explosion_optimizedTntMixin
         {
             toBlow.clear();
         }
-        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && (this.source instanceof TntEntity))
+        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && (this.source instanceof PrimedTnt))
         {
             OptimizedExplosion.doExplosionB((Explosion) (Object) this, spawnParticles);
             ci.cancel();

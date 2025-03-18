@@ -1,5 +1,14 @@
 package carpet.mixins;
 
+import carpet.helpers.OptimizedExplosion;
+import carpet.CarpetSettings;
+import carpet.logging.LoggerRegistry;
+import carpet.logging.logHelpers.ExplosionLogHelper;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.breeze.Breeze;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,20 +18,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import carpet.CarpetSettings;
-import carpet.helpers.OptimizedExplosion;
-import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.ExplosionLogHelper;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.breeze.Breeze;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -38,14 +39,13 @@ public abstract class Explosion_optimizedTntMixin
 
     @Shadow @Nullable public abstract LivingEntity getIndirectSourceEntity();
 
-    @Shadow @Final @Nullable private Entity source;
     private ExplosionLogHelper eLogger;
 
     @Inject(method = "explode", at = @At("HEAD"),
             cancellable = true)
     private void onExplosionA(CallbackInfo ci)
     {
-        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && !(this.source instanceof WindCharge))
+        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze))
         {
             OptimizedExplosion.doExplosionA((Explosion) (Object) this, eLogger);
             ci.cancel();
@@ -65,7 +65,7 @@ public abstract class Explosion_optimizedTntMixin
         {
             toBlow.clear();
         }
-        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && !(this.source instanceof WindCharge))
+        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze))
         {
             OptimizedExplosion.doExplosionB((Explosion) (Object) this, spawnParticles);
             ci.cancel();

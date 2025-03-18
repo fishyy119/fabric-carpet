@@ -9,7 +9,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.breeze.Breeze;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.entity.item.TntEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,7 +47,7 @@ public abstract class Explosion_optimizedTntMixin
             cancellable = true)
     private void onExplosionA(CallbackInfo ci)
     {
-        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && !(this.source instanceof WindCharge))
+        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && (this.source instanceof TntEntity))
         {
             OptimizedExplosion.doExplosionA((Explosion) (Object) this, eLogger);
             ci.cancel();
@@ -67,7 +67,7 @@ public abstract class Explosion_optimizedTntMixin
         {
             toBlow.clear();
         }
-        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && !(this.source instanceof WindCharge))
+        if (CarpetSettings.optimizedTNT && !level.isClientSide && !(getIndirectSourceEntity() instanceof Breeze) && (this.source instanceof TntEntity))
         {
             OptimizedExplosion.doExplosionB((Explosion) (Object) this, spawnParticles);
             ci.cancel();

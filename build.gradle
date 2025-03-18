@@ -35,7 +35,7 @@ processResources {
 	inputs.property "version", project.version+'+v'+new Date().format('yyMMdd')
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.mod_version+'+v'+new Date().format('yyMMdd')
+		expand "version": project.mod_version+'+v'+new Date().format('yyMMdd')+'.fixTntWindcharge'
 	}
 }
 
